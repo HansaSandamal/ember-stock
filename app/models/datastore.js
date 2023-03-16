@@ -14,12 +14,7 @@ export default EmberObject.extend({
 
     exchangeSymbols.forEach(({ exchange, symbols }) => {
       symbols.forEach((symbol) => {
-        const stock = this.getOrCreateStock(symbol, exchange);
-        this.stocks.push(stock);
-
-        const exchangeStocks = this.stocksByExchange.get(exchange) || [];
-        exchangeStocks.push(stock);
-        this.stocksByExchange.set(exchange, exchangeStocks);
+        this.getOrCreateStock(symbol, exchange); 
       });
     });
 
@@ -61,7 +56,12 @@ export default EmberObject.extend({
         exchange,
       });
       this.createdStocks.set(key, stock);
+      this.stocks.push(stock); 
+      const exchangeStocks = this.stocksByExchange.get(exchange) || [];
+      exchangeStocks.push(stock);
+      this.stocksByExchange.set(exchange, exchangeStocks);
       return stock;
     }
+    
   },
 });

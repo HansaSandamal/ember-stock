@@ -9,14 +9,11 @@ export default Component.extend({
     this._super(...arguments);
     this.set('dataStore', DataStore.create());
     this.dataStore.generateStocks();
+    this.set('selectedExchange', Array.from(this.dataStore.stocksByExchange.keys())[0]);
   },
 
   exchangeOptions: computed('dataStore.stocksByExchange', function () {
     return Array.from(this.dataStore.stocksByExchange.keys());
-  }),
-  
-  selectedExchange: computed('exchangeOptions', function () {
-    return this.exchangeOptions.firstObject;
   }),
 
   filteredStocks: computed('dataStore.stocksByExchange', 'selectedExchange', function () {
