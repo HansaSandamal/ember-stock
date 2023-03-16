@@ -1,0 +1,38 @@
+<div class="form-group">
+  <label for="exchange-select">Select Exchange:</label>
+  <select class="form-control" id="exchange-select" onchange={{action "filterStocks" value="target.value" }}>
+    {{#each exchangeOptions as |exchange|}}
+    <option value={{exchange}}>{{exchange}}</option>
+    {{/each}}
+  </select>
+</div>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Bid</th>
+      <th>Ask</th>
+      <th>Trade Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each filteredStocks as |stock|}}
+    <tr>
+      <td>{{stock.symbol}}</td>
+      <td>{{stock.open}}</td>
+      <td>{{stock.high}}</td>
+      <td>{{stock.low}}</td>
+      <td>{{stock.close}}</td>
+      <td>{{stock.bid}}</td>
+      <td>{{stock.ask}}</td>
+      <td>{{stock.tradeDate}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
