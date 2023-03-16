@@ -6,24 +6,21 @@ export default EmberObject.extend({
   stocksByExchange: new Map(),
   createdStocks: new Map(),
 
-  addStock(stock) {
-    this.stocks.push(stock);
-    const exchangeStocks = this.stocksByExchange.get(stock.exchange) || [];
-    exchangeStocks.push(stock);
-    this.stocksByExchange.set(stock.exchange, exchangeStocks);
-  },
-
   generateStocks() {
-    const tdwlSymbols = [1010, 1020, 1090, 2040, 1040];
-    tdwlSymbols.forEach((symbol) => {
-      const stock = this.getOrCreateStock(symbol, 'TDWL');
-      this.addStock(stock);
-    });
+    const exchangeSymbols = [
+      { exchange: 'TDWL', symbols: [1010, 1020, 1090, 2040, 1040] },
+      { exchange: 'DFM', symbols: ['EMAAR', 'DFM', 'DIB', 'SHUAA', 'UPP'] },
+    ];
 
-    const dfmSymbols = ['EMAAR', 'DFM', 'DIB', 'SHUAA', 'UPP'];
-    dfmSymbols.forEach((symbol) => {
-      const stock = this.getOrCreateStock(symbol, 'DFM');
-      this.addStock(stock);
+    exchangeSymbols.forEach(({ exchange, symbols }) => {
+      symbols.forEach((symbol) => {
+        const stock = this.getOrCreateStock(symbol, exchange);
+        this.stocks.push(stock);
+
+        const exchangeStocks = this.stocksByExchange.get(exchange) || [];
+        exchangeStocks.push(stock);
+        this.stocksByExchange.set(exchange, exchangeStocks);
+      });
     });
 
     this.startUpdates();
@@ -43,10 +40,10 @@ export default EmberObject.extend({
         });
       });
 
-      setTimeout(update, 5000);
+      setTimeout(update, 1000);
     };
 
-    setTimeout(update, 5000);
+    setTimeout(update, 1000);
   },
 
   getStocksByExchange(exchange) {
@@ -62,17 +59,9 @@ export default EmberObject.extend({
       const stock = Stock.create({
         symbol,
         exchange,
-        open: Math.random() * 100,
-        high: Math.random() * 100,
-        low: Math.random() * 100,
-        close: Math.random() * 100,
-        bid: Math.random() * 100,
-        ask: Math.random() * 100,
-        tradeDate: new Date(),
       });
       this.createdStocks.set(key, stock);
       return stock;
     }
-
   },
 });

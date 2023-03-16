@@ -11,8 +11,13 @@ export default Component.extend({
     this.dataStore.generateStocks();
   },
 
-  exchangeOptions: ["TDWL", "DFM"],
-  selectedExchange: 'TDWL',
+  exchangeOptions: computed('dataStore.stocksByExchange', function () {
+    return Array.from(this.dataStore.stocksByExchange.keys());
+  }),
+  
+  selectedExchange: computed('exchangeOptions', function () {
+    return this.exchangeOptions.firstObject;
+  }),
 
   filteredStocks: computed('dataStore.stocksByExchange', 'selectedExchange', function () {
     return this.dataStore.getStocksByExchange(this.selectedExchange);
