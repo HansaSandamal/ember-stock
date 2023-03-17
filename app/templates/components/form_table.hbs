@@ -2,7 +2,7 @@
   <label for="exchange-select">Select Exchange:</label>
   <select class="form-control" id="exchange-select" onchange={{action "filterStocks" value="target.value" }}>
     {{#each exchangeOptions as |exchange|}}
-    <option value={{exchange}}>{{exchange}}</option>
+    <option value={{{exchange}}}>{{exchange}}</option>
     {{/each}}
   </select>
 </div>
